@@ -17,29 +17,7 @@ struct ContentView: View {
             imageView
                 .overlay {
                     sheetView
-                        .gesture(DragGesture()
-                            .onChanged { value in
-                                withAnimation(.spring()) {
-                                    if offset.height > value.translation.height && value.translation.height < 50 {
-                                        offset = .zero
-                                        return
-                                    }
-                                    if value.translation.height > 180 {
-                                        offset.height = 230
-                                        return
-                                    }
-                                    offset.height = value.translation.height
-                                }
-                            }
-                            .onEnded({ _ in
-                                withAnimation(.spring()) {
-                                    if offset.height < 100 { offset = .zero
-                                    } else {
-                                        offset.height = UIScreen.main.bounds.height / 3 - 50
-                                    }
-                                }
-                            })
-                        )
+                        
                 }
         }
         
@@ -80,6 +58,7 @@ extension ContentView {
                             
                         }
                     })
+                    
                     Spacer()
                     
                 }
@@ -91,6 +70,29 @@ extension ContentView {
             .frame(width:  UIScreen.main.bounds.width)
             .frame(height: UIScreen.main.bounds.height / 3)
             .offset(offset)
+            .gesture(DragGesture()
+                .onChanged { value in
+                    withAnimation(.spring()) {
+                        if offset.height > value.translation.height && value.translation.height < 50 {
+                            offset = .zero
+                            return
+                        }
+                        if value.translation.height > 180 {
+                            offset.height = 230
+                            return
+                        }
+                        offset.height = value.translation.height
+                    }
+                }
+                .onEnded({ _ in
+                    withAnimation(.spring()) {
+                        if offset.height < 100 { offset = .zero
+                        } else {
+                            offset.height = UIScreen.main.bounds.height / 3 - 50
+                        }
+                    }
+                })
+            )
         }.ignoresSafeArea()
     }
     
